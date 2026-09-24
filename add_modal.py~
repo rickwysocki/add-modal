@@ -1,0 +1,14 @@
+for html_file in HTML_FOLDER.rglob("*.html"):
+        original = html_file.read_text(encoding="utf-8")
+
+        updated = inject_modal(original)
+
+        if updated != original:
+            # Create a backup
+            backup_file = html_file.with_suffix(html_file.suffix + ".bak")
+            backup_file.write_text(original, encoding="utf-8")
+
+            html_file.write_text(updated, encoding="utf-8")
+            print(f"Updated: {html_file}")
+        else:
+            print(f"Skipped: {html_file}")

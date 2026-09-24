@@ -1,0 +1,43 @@
+from pathlib import Path
+
+file_path = Path("modal-styles.css")
+file_path.write_text(r'''
+.site-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: white;
+}
+
+.site-modal__content {
+    position: relative;
+    width: min(500px, 100%);
+    padding: 30px;
+    background: white;
+    color: #222;
+}
+
+.site-modal__close {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    border: 0;
+    background: transparent;
+    color: #555;
+    cursor: pointer;
+    font-size: 28px;
+    line-height: 1;
+}
+
+.site-modal__close:hover {
+    color: #000;
+}
+
+.site-modal.is-hidden {
+    display: none;
+}
+''')

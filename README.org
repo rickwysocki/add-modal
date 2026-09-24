@@ -1,0 +1,10 @@
+* Documentation
+This program adds an informative modal to all =.html= files in a directory. 
+
+* TODOS
+- [ ] Simplify Javascript
+- [ ] Pull content from Kairos webtext metadata
+- [ ] Create a second confirmation request
+- [ ] Refactor functions
+- [X] Write function to add modal style above </head>
+
