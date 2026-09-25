@@ -98,9 +98,81 @@ from pathlib import Path
 
 # Variables
 current_directory = Path.cwd()
+
 p = Path('.')
+
 files = list(Path('.').glob('**/*.txt'))# html_files = [x for x in p if x.is_file()]
 
+cssContent = r'''
+.site-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: white;
+}
+
+.site-modal__content {
+    position: relative;
+    width: min(500px, 100%);
+    padding: 30px;
+    background: white;
+    color: #222;
+}
+
+.site-modal__close {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    border: 0;
+    background: transparent;
+    color: #555;
+    cursor: pointer;
+    font-size: 28px;
+    line-height: 1;
+}
+
+.site-modal__close:hover {
+    color: #000;
+}
+
+.site-modal.is-hidden {
+    display: none;
+}
+'''
+
+jsContent = r'''
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const modal = document.getElementById("site-modal");
+    const closeButton = document.querySelector(".site-modal__close");
+
+    if (!modal || !closeButton) return;
+
+    function closeModal() {
+        modal.classList.add("is-hidden");
+    }
+
+    closeButton.addEventListener("click", closeModal);
+
+    modal.addEventListener("click", function (event) {
+        if (event.target === modal) {
+            closeModal();
+        }
+    });
+
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") {
+            closeModal();
+        }
+    });
+});
+</script>
+
+'''
 # Functions
 
 # Inform user of cwd
@@ -121,7 +193,17 @@ def userConfirm():
     else:
         print("Program aborted.")
 
+# Create and populate CSS file.
+def generateCSS():
+    css_file = p / "kairos-modal.css"
+    css_file.touch()
+    css_file.write_text(cssContent)
 
+# Create and populate JS file.
+def generateJS():
+    js_file = p / "kairos-modal.js"
+    js_file.touch()
+    js_file.write_text(jsContent)
         
 # Main
 def main ():
@@ -131,19 +213,30 @@ def main ():
     listFiles()
 
     userConfirm()
-
-    # Create modal CSS file. NOTE: this adds to the path but doesn't actually create the file.
-    new_file = p / "kairos-modal.css"
-    new_file.touch()
-
-
-
-
     
-    # write stylesheet link into HTML pages
+    generateCSS()
+    
+    generateJS()
 
-    # Path.touch("text.txt")
+    # Read through HTML files.
+    for html_file in p.rglob("*.html"):
 
+        # Set original version of HTML.
+        original = html_file.read_text(encoding="utf-8")
+
+        # Check for kairos-modal to prevent duplication. TODO: Change order to prevent creation of asset files.
+        if 'id="kairos-modal"' in original:
+            print("Kairos modal already exists. Program unsuccessful.")
+            return original
+        
+
+        
+
+
+
+
+
+        
     # write modal into HTML pages
 
     # write Javascript into HTML pages
