@@ -54,7 +54,7 @@ def inject_modal(html):
 
     # Add link to modal stylesheet above </head>
     position = html.lower().rfind("</head>")
-    return html[:position] + "<link rel="stylesheet" href="modal-styles.css">" + "\n" + html[position:]
+    return html[:position] + "<link rel=\"stylesheet" href="modal-styles.css\">" + "\n" + html[position:]
 
 
     additions = MODAL_HTML + MODAL_JS
