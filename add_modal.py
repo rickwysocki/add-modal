@@ -1,3 +1,4 @@
+"""
 from pathlib import Path
 
 # Folder containing your HTML files
@@ -89,4 +90,63 @@ def main():
     else:
         print("Program aborted.")
     
+main()
+"""
+
+# import pathlib
+from pathlib import Path
+
+# Variables
+current_directory = Path.cwd()
+p = Path('.')
+files = list(Path('.').glob('**/*.txt'))# html_files = [x for x in p if x.is_file()]
+
+# Functions
+
+# Inform user of cwd
+def currentDir():
+    print("Your current working directory is: " + str(Path.cwd()) + ". Do you want to continue?")
+
+# List HTML files that will be altered.
+def listFiles():
+    # print("The following files will be affected: " + str(files))
+    file_list = [str(file) for file in files]
+    print("The following files will be altered: " + str(file_list))
+    
+# Get user confirmation.
+def userConfirm():
+    confirmation = input("Are you absolutely sure you want to continue? This cannot be undone. (y/n): ")
+    if confirmation == "y":
+        print("You selected yes.")
+    else:
+        print("Program aborted.")
+
+
+        
+# Main
+def main ():
+
+    currentDir()
+
+    listFiles()
+
+    userConfirm()
+
+    # Create modal CSS file. NOTE: this adds to the path but doesn't actually create the file.
+    new_file = p / "kairos-modal.css"
+    new_file.touch()
+
+
+
+
+    
+    # write stylesheet link into HTML pages
+
+    # Path.touch("text.txt")
+
+    # write modal into HTML pages
+
+    # write Javascript into HTML pages
+
+
 main()
