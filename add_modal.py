@@ -218,16 +218,29 @@ def main ():
     
     generateJS()
 
-    # Read through HTML files.
-    for html_file in p.rglob("*.html"):
+    # Read through HTML files. TODO: Break up this function so that it returns after each injection.
 
-        # Set original version of HTML.
-        original = html_file.read_text(encoding="utf-8")
+    def inject_modal(html):
+        # Avoid adding the modal more than once
+        if 'id="site-modal"' in html:
+            return html
 
-        # Check for kairos-modal to prevent duplication. TODO: Change order to prevent creation of asset files.
-        if 'id="kairos-modal"' in original:
-            print("Kairos modal already exists. Program unsuccessful.")
-            return original
+        # Function 1: Return after stylesheet link injection.
+        position = html.lower().rfind("</head>")
+        return html[:position] + "<link rel=\"stylesheet" href="modal-styles.css\">" + "\n" + html[position:]
+
+
+    # Function 2: Return after html and JS injections
+    additions = MODAL_HTML + MODAL_JS
+    
+    # Insert before </body> if it exists
+    if "</body>" in html.lower():
+        position = html.lower().rfind("</body>")
+        return html[:position] + additions + "\n" + html[position:]
+
+    # Otherwise append to the end of the file
+    return html + "\n" + additions
+
         
 
         
