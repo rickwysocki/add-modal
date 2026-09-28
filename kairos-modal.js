@@ -1,5 +1,4 @@
 
-<script>
 document.addEventListener("DOMContentLoaded", function () {
     const modal = document.getElementById("site-modal");
     const closeButton = document.querySelector(".site-modal__close");
@@ -24,5 +23,3 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
-</script>
-
