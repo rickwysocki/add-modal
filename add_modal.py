@@ -1,23 +1,14 @@
 # import pathlib
 from pathlib import Path
 
+# Import re for regular expressions
+import re
+
 # Variables
 current_directory = Path.cwd()
 p = Path('.')
 
-# Declare the HTML to be included as the modal.
-modalHTML = r'''
-<div id="site-modal" class="site-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-    <div class="site-modal__content">
-        <button class="site-modal__close" type="button" aria-label="Close modal">
-            &times;
-        </button>
 
-        <h2 id="modal-title">A note from <cite>Kairos</cite></h2>
-        <p>This is a local directory containing a piece published by <cite><a href="https://kairos.technorhetoric.net">Kairos: A Journal of Rhetoric, Technology, and Pedagogy</a></cite> When possible, we ask that this piece be asked through the official journal hosted online.</p>
-    </div>
-</div>
-'''
 
 cssContent = r'''
 .site-modal {
@@ -88,14 +79,10 @@ document.addEventListener("DOMContentLoaded", function () {
 '''
 
 # Functions
-
-# Inform user of cwd
-def currentDir():
-    input("Your current working directory is: " + str(Path.cwd()) + ". All HTML files in this directory will be altered. Do you want to continue?" (Y/n))
     
 # Get user confirmation.
 def userConfirm():
-    confirmation = input("Your current working directory is: " + str(Path.cwd()) + ". All HTML files in this directory will be altered. This cannot be undone. Are you absolutely sure you want to continue? (y/n): ")
+    confirmation = input("Your current working directory is: " + str(Path.cwd()) + "\n\n" + "All HTML files in this directory will be altered. This cannot be undone. Are you absolutely sure you want to continue? (y/n): ")
     if confirmation.lower() == "y":
         return True 
     else:
@@ -113,7 +100,19 @@ def generateJS():
     js_file.touch()
     js_file.write_text(jsContent)
 
-def inject_modal(html):
+pattern = re.compile(
+    r'<meta\s+name="DC\.identifier"\s+content="https?://kairos\.technorhetoric\.net/([^/]+)/',
+    re.IGNORECASE
+)
+
+def urlSearch(file_path):
+    with open(file_path, "r", encoding="utf-8") as file:
+        input_text = file.read()
+
+    match = pattern.search(input_text)
+    return match.group(1) if match else None
+
+def inject_modal(html, URL):
     # Avoid adding the modal more than once
     if 'id="site-modal"' in html:
         return html
@@ -121,6 +120,20 @@ def inject_modal(html):
     external_files_position = html.lower().rfind("</head>")
     html_position = html.lower().rfind("</body>")
 
+    
+    # Declare the HTML to be included as the modal.
+    modalHTML = rf'''
+    <div id="site-modal" class="site-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="site-modal__content">
+        <button class="site-modal__close" type="button" aria-label="Close modal">
+            &times;
+        </button>
+
+        <h2 id="modal-title">A note from <cite>Kairos</cite></h2>
+        <p>This is a local directory containing a webtext published by <cite><a href="https://kairos.technorhetoric.net">Kairos: A Journal of Rhetoric, Technology, and Pedagogy</a></cite> When possible, we ask that the piece be asked through the official journal, hosted online. You can find the officially published version of this webtext in <a href="http://kairos.technorhetoric.net/{URL}/index.html">issue {URL}></a> of <cite>Kairos</cite</p>
+    </div>
+</div>
+'''
     # Insert before </body> if it exists
     if "</body>" in html.lower():
         insertions = [
@@ -147,10 +160,11 @@ def main ():
         # Read through HTML files. TODO: Break up this function so that it returns after each injection.
 
         for html_file in p.rglob("*.html"):
+
             original = html_file.read_text(encoding="utf-8")
-            inject_modal(original)
+            pageURL = urlSearch(html_file)
             
-            updated = inject_modal(original)
+            updated = inject_modal(original, pageURL)
         
             if updated != original:
                 # Create a backup
@@ -161,6 +175,7 @@ def main ():
                 print(f"Updated: {html_file}")
             else:
                 print(f"Skipped: {html_file}")
+
     else:
         print("Program aborted. No changes made.")
 

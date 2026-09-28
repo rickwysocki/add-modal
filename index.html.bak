@@ -3,7 +3,14 @@
   
   
 
+  <meta name="DC.identifier" content="http://kairos.technorhetoric.net/31.1/coverweb/andrews-bahl/index.html">
 
+
+<link rel="stylesheet" href="kairos-modal.css">
+<script src="kairos-modal.js"></script>
+
+<link rel="stylesheet" href="kairos-modal.css">
+<script src="kairos-modal.js"></script>
 </head>
 
 
@@ -11,6 +18,7 @@
     <main>
       <p>Here's is content.</p>
       </main>
+
 
 
 
