@@ -1,10 +1,26 @@
-* Documentation
-This program adds an informative modal to all =.html= files in a directory. 
+#+TITLE: =add-modal.py=: Documentation
+#+AUTHOR: Rick Wysocki
+#+DATE: 2026-09-28
 
-* TODOS
-- [ ] Simplify Javascript
-- [ ] Pull content from Kairos webtext metadata
-- [ ] Create a second confirmation request
-- [ ] Refactor functions
-- [X] Write function to add modal style above </head>
 
+* Description
+This program adds an informative modal to all =.html= files in a directory. Its more specific purpose is to aid in creating offline versions of webtexts published by  /Kairos: A Journal of Rhetoric, Technology, and Society/ that point back to the official versions hosted by the journal.
+
+When the program is run and confirmed by the user, it does the following:
+- Creates a CSS file to style the modal.
+- Creates a Javascript file for the modal.
+- Iterates through each file ending in .html and adds the relevant HTML and CSS/Javascript links.
+- Creates backup files (ending in =.bak=) for the original HTML pages.
+
+* Warnings
+1. This program is destructive. Backup files are created, but all of the HTML files will be altered, with no easy "undo" option.
+2. This program should work recursively through subdirectories, so *it is extremely important that you ensure you are in the correct directory when you run it.* If not, it will almost certainly alter files that you didn't intend.
+3. This program should never be used in the /Kairos/ production cycle. It's *only* purpose is to create offline versions of /already published/ webtexts. Always use it on a *copy* of a directory. *Never, ever, upload this program to any server.*
+
+* Usage
+
+** Option 1: Move file into your directory and execute the program.
+Since the program is fully contained in a single Python file, you can simply download the file when necessary and add it to the webtext directory. Then, you can open a terminal, =cd= to the relevant directory, and run =python add-modal.py=. When you are finished, please ensure that the Python script is deleted from the directory. 
+
+** Option 2: Add the program to your path.
+The second option is to add the program to your path so that you can execute it anywhere. This adds convenience but also danger, since it removes barriers and increases the possibility of running it in an unintended directory.

@@ -1,4 +1,0 @@
-from pathlib import Path
-
-file_path = Path("modal-styles.css")
-file_path.write_text("This file was created using the pathlib module in Python.")

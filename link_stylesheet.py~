@@ -1,4 +1,0 @@
-    # Insert before </body> if it exists
-    if "</body>" in html.lower():
-        position = html.lower().rfind("</body>")
-        return html[:position] + additions + "\n" + html[position:]
