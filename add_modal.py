@@ -130,7 +130,7 @@ def inject_modal(html, URL):
         </button>
 
         <h2 id="modal-title">A note from <cite>Kairos</cite></h2>
-        <p>This is a local directory containing a webtext published by <cite><a href="https://kairos.technorhetoric.net">Kairos: A Journal of Rhetoric, Technology, and Pedagogy</a></cite> When possible, we ask that the piece be asked through the official journal, hosted online. You can find the officially published version of this webtext in <a href="http://kairos.technorhetoric.net/{URL}/index.html">issue {URL}></a> of <cite>Kairos</cite</p>
+        <p>This is a local directory containing a webtext published by <cite><a href="https://kairos.technorhetoric.net">Kairos: A Journal of Rhetoric, Technology, and Pedagogy</a></cite> When possible, we ask that the piece be asked through the official journal, hosted online. You can find the officially published version of this webtext in <a href="http://kairos.technorhetoric.net/{URL}/index.html">issue {URL}>=</a> of <cite>Kairos</cite></p>
     </div>
 </div>
 '''
